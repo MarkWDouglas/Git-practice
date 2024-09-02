@@ -1,31 +1,42 @@
 # This program finds the prime factorisation of any integer
-# Notes:
-# A prime has no factors except for 1 and itself.
-# To determine primeness, we can find all the primes up to a number
-# Because we're looking for factors, we only need to look up to n/2.
-# Once we have the primes in range(2, floor(n/2)) we check modular
-# for all primes in our set we check n % prime == 0 
-# if true add two factor set and divide n / prime
-# for dividend, repeat process.
-# output primes as products
+# Pseudocode
+# Goals: prime factorisation using a list filling with factors starting with a list
+# from 2 -> sqrt(N)
+# =====================================================================================
+# receive input n
+# while n mod(2) = 0
+#   divide n by 2
+#   add 2 to list of prime factors
+# for odd from 3 -> sqrt(n)
+#   while n mod(odd) = 0
+#       add odd to list of prime factors
 import math
-primes = []
-n = int(input("enter a number silly!"))
-candidates = list(range(2, math.floor(n/2)))
-print(candidates)
-for x in candidates:
-    if x % 2 == 0:
-        candidates.remove(x)
-    elif x % 3 == 0:
-        candidates.remove(x)
-    elif x % 5 == 0:
-        candidates.remove(x)
-    elif x % 7 == 0:
-        candidates.remove(x)
-    else:
-        for y in range(2, math.floor(n/2)):
-            for x in candidates:
-                if x % y == 0:
-                    candidates.remove(x)
-            
-print(candidates)
+ 
+# A function to print all prime factors of 
+# a given number n
+factors = []
+def primeFactors(n):
+     
+    # Print the number of two's that divide n
+    while n % 2 == 0:
+        factors.append(2)
+        n = n / 2
+         
+    # n must be odd at this point
+    # so a skip of 2 ( i = i + 2) can be used
+    for i in range(3,int(math.sqrt(n))+1,2):
+         
+        # while i divides n , print i and divide n
+        while n % i== 0:
+            factors.append(i)
+            n = n / i
+             
+    # Condition if n is a prime
+    # number greater than 2
+    if n > 2:
+        factors.append(int(n))
+    print(" x ".join(map(str, factors)))
+# Driver Program to test above function
+ 
+n = int(input("Please enter an integer to be decomposed "))
+primeFactors(n)
