@@ -1,9 +1,9 @@
 import random
 
-def door_allocation(count_doors, possible_doors, random):
-    if random == True:
-        door_allocated = random.randint(1, count_doors)
-    elif random == False:
+def random_allocator(count_doors, possible_doors, isRandom):
+    if isRandom == True:
+        chosen_door = random.randint(1, count_doors)
+    elif isRandom == False:
         if possible_doors:
             chosen_door = random.choice(list(possible_doors))
         else:
