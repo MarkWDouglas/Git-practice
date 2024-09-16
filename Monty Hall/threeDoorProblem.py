@@ -10,13 +10,12 @@ def random_allocator(count_doors, possible_doors, isRandom):
             print('There are no available doors!')
             chosen_door = None
     return chosen_door
+
 def choices():
     amount_doors = int(input('Please enter the amount of doors in your problem '))
     amount_simulations = int(input('Please input the amount of simulations you would like to run'))
     switch_choice = input('do you want your simulation to switch doors or keep the first choice? (swap/keep) ').lower()
-    return amount_doors, amount_simulations, switch_choice
-def monty_hall_game():
-
+    return amount_doors, amount_simulations, switch_choice 
 
 def monty_hall_random(num_doors, num_simulations, swap):
     wins = 0
@@ -37,7 +36,7 @@ def monty_hall_random(num_doors, num_simulations, swap):
             unopened_door = prize_door
         
         
-        # The spirit of the mony hall problem is that if swap is chosen, the player has chosen
+        # The spirit of the monty hall problem is that if swap is chosen, the player has chosen
         # The only unopened door.
         if swap == True:
             final_choice = unopened_door
@@ -55,6 +54,38 @@ def monty_hall_random(num_doors, num_simulations, swap):
             wins += 1
 
     return wins, num_simulations
+
+def monty_hall_game(doors_count):
+    
+    win_count = 0
+    loss_count = 0
+    
+    while True:
+        prize_door = random_allocator(doors_count, doors_count, True)
+        guess = input('Choose a door: ')
+        available_doors = set(range(1, doors_count + 1)) - {prize_door, guess}
+        if guess == prize_door:
+            unopened_door = random_allocator(doors_count, available_doors, isRandom = False)
+        else:
+            unopened_door = prize_door
+        choice = input(f'Monty opens all the doors except {unopened_door}. Would you like to stay or swap? ').lower()
+        if choice == 'stay':
+            guess = unopened_door
+        if guess == prize_door:
+            print('Congratulations! you won!')
+            win_count = win_count + 1
+        else:
+            print('Loser!')
+            loss_count = loss_count + 1
+        again = input('Would you like to play again? (y/n). press t for your tally of results ').lower()
+        if again == 'y':
+            continue
+        elif again == 'n':
+            break
+        elif again == 't':
+            print(f'You have won {win_count} times and lost {loss_count} times')
+        
+
 
 
 # Example usage
@@ -79,7 +110,8 @@ def menu():
     print('Would you like to play the game yourself? or simulate games played?')
     selection = input('Enter your selection (Play/Simulate)').lower()
     if selection == 'play':
-        monty_hall_game()
+        doors_count = int(input('How many doors are in your game?'))
+        monty_hall_game(doors_count)
     elif selection == 'simulate':
         amount_doors, amount_simulations, switch_choice = choices()
 
